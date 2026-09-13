@@ -1,0 +1,2 @@
+pygame==2.6.1
+# vgamepad 0.1.0 is installed by install_dependencies.py with driver auto-install disabled.

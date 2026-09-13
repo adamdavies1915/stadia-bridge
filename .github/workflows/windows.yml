@@ -1,0 +1,66 @@
+name: Windows build
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.10'
+          architecture: x64
+      - name: Install virtual controller driver on build runner
+        shell: pwsh
+        run: |
+          $release = Invoke-RestMethod 'https://api.github.com/repos/nefarius/ViGEmBus/releases/tags/v1.22.0'
+          $asset = @($release.assets | Where-Object { $_.name -like '*.exe' })
+          if ($asset.Count -ne 1) { throw 'Expected one official ViGEmBus installer' }
+          $installer = Join-Path $env:RUNNER_TEMP 'ViGEmBusSetup.exe'
+          Invoke-WebRequest $asset[0].browser_download_url -OutFile $installer
+          $signature = Get-AuthenticodeSignature $installer
+          if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notlike '*Nefarius*') {
+            throw 'ViGEmBus installer signature verification failed'
+          }
+          $process = Start-Process $installer -ArgumentList '/quiet', '/norestart' -Wait -PassThru
+          if ($process.ExitCode -notin @(0, 3010)) { throw "Driver installation failed: $($process.ExitCode)" }
+      - name: Set up dependencies
+        shell: cmd
+        run: |
+          python -m venv .venv
+          .venv\Scripts\python.exe install_dependencies.py
+      - name: Test mapping and lifecycle
+        run: .venv\Scripts\python.exe -m unittest discover -s tests -v
+      - name: Build Windows application
+        shell: cmd
+        run: build.bat
+      - name: Package Windows release
+        run: .venv\Scripts\python.exe scripts/package_release.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: StadiaBridge-Windows-x64
+          path: releases/
+          if-no-files-found: error
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check release version
+        run: test "${GITHUB_REF_NAME}" = "v$(tr -d '\r\n' < VERSION)"
+      - uses: actions/download-artifact@v4
+        with:
+          name: StadiaBridge-Windows-x64
+          path: releases
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" releases/* --verify-tag --title "Stadia Bridge $GITHUB_REF_NAME" --generate-notes
