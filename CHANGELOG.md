@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1
+
+- Single-file Windows executable with Python and libraries embedded.
+- Beginner download directly in the repository and GitHub Releases.
+- Prevents duplicate app instances from creating multiple Xbox devices.
+- Adds a Licenses button and embedded dependency notices.
+- Rewrites setup instructions around three steps, with a real app screenshot.
+
 ## 0.1.0
 
 - Windows desktop bridge from a Stadia controller to a native XInput Xbox 360 device.

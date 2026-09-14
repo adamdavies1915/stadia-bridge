@@ -1,127 +1,146 @@
+<div align="center">
+
 # Stadia Bridge
 
-A Windows desktop application that reads one Google Stadia controller and exposes
-it as a virtual Xbox 360 controller through XInput. Includes automatic connection
-and reconnection, Start/Stop, adjustable radial stick deadzone, and live output.
-The bridge continues while minimized. Closing it removes the virtual controller.
+### Put your Stadia controller back to work.
 
-## Download and run
+Use it as an **Xbox controller in Windows games**—with native XInput output.
 
-Download **StadiaBridge-0.1.0-Windows-x64.zip** from
-[Releases](https://github.com/adamdavies1915/stadia-bridge/releases/latest), extract
-all files, and run **StadiaBridge.exe**. Keep the `_internal` folder beside it.
-No Python installation is needed. Windows 10/11 x64 and
-[ViGEmBus](https://github.com/nefarius/ViGEmBus/releases/latest) are required.
+[![Windows build](https://github.com/adamdavies1915/stadia-bridge/actions/workflows/windows.yml/badge.svg)](https://github.com/adamdavies1915/stadia-bridge/actions/workflows/windows.yml)
+[![Latest release](https://img.shields.io/github/v/release/adamdavies1915/stadia-bridge)](https://github.com/adamdavies1915/stadia-bridge/releases/latest)
+![Windows 10 / 11 x64](https://img.shields.io/badge/Windows-10%20%2F%2011%20x64-0078D4)
+[![Code license: MIT](https://img.shields.io/badge/Code%20license-MIT-green)](LICENSE)
 
-Connect your Stadia controller, then keep the app open while playing. Minimized
-is fine. Run only one instance. See `QUICKSTART.txt` in the ZIP for setup steps.
+**[⬇ Download StadiaBridge.exe](https://github.com/adamdavies1915/stadia-bridge/releases/latest/download/StadiaBridge.exe)**
 
-## Run from source
+One file. No Python installation. No extracting folders.
 
-1. Install **Python 3.12, 64-bit**, including its launcher, from
-   [python.org](https://www.python.org/downloads/windows/).
-2. Install the signed **ViGEmBus** driver from the
-   [maintainer's GitHub releases](https://github.com/nefarius/ViGEmBus/releases/latest).
-   Restart Windows if the installer requests it. Administrator access is needed
-   for driver installation; the bridge itself runs as a normal user.
-3. Copy this project to Windows and double-click `setup.bat`. Internet access is
-   needed for the Python dependencies. Setup verifies the vgamepad 0.1.0 source
-   archive checksum and disables only its obsolete bundled driver installer before
-   building the package. Its controller runtime and DLLs are unchanged.
-4. Connect the Stadia controller using a USB data cable, or pair it in Windows
-   Bluetooth settings if it **already has Bluetooth-enabled firmware**.
-5. Double-click `start.bat`. The app starts bridging automatically when it finds
-   the first device with “Stadia” in its name. Keep only one copy running.
-6. Click **Test in Windows**, select **Controller (XBOX 360 For Windows)** (the
-   exact name can vary), then open Properties. Check buttons, both sticks, and
-   triggers. Open your game while the bridge is running.
+[All downloads](https://github.com/adamdavies1915/stadia-bridge/releases/latest) · [Report a problem](https://github.com/adamdavies1915/stadia-bridge/issues) · [Build from source](#build-from-source)
 
-## Xbox One versus Xbox 360
+<img src="docs/images/stadia-bridge.png" alt="Stadia Bridge connected to a Google Stadia Controller, showing Xbox output, stick deadzone settings, and a Windows controller test button" width="660">
 
-ViGEmBus supports Xbox 360 and DualShock 4 virtual devices, not an Xbox One device.
-Xbox 360 output supplies standard XInput buttons, both sticks, and independent
-analog triggers for compatible Windows games. An Xbox One label would not add
-hardware features to a Stadia controller. This app does not forward vibration,
-audio, headset functions, the Assistant button, or Capture button. SDL maps the
-Stadia button to Guide and the menu buttons to Start/Back where supported by the
-controller firmware. Some games or Windows overlays intercept Guide.
+</div>
 
-## Duplicate input and troubleshooting
+## Get playing in three steps
 
-Windows may show both the physical Stadia controller and the virtual Xbox device.
-If a game responds twice, turn off other controller translators, including Steam
-Input for that game when using this bridge. If the game still reads both devices,
-[HidHide](https://github.com/nefarius/HidHide) can hide the physical device:
+1. **Download and double-click [StadiaBridge.exe](https://github.com/adamdavies1915/stadia-bridge/releases/latest/download/StadiaBridge.exe).** Save it somewhere you want to keep it. The first launch may take a few seconds while it unpacks its bundled libraries.
+2. **Install [ViGEmBus](https://github.com/nefarius/ViGEmBus/releases/latest) if you don't already have it.** This is the driver that creates the virtual Xbox controller. You only install it once. Restart Windows if its installer asks you to, then reopen Stadia Bridge.
+3. **Connect your Stadia controller and play.** Use a USB data cable, or pair it through Windows Bluetooth settings if it already has Bluetooth firmware. The app connects automatically.
 
-1. Add the bridge executable to HidHide's Applications allowlist. For a source
-   launch this is the project's `.venv\Scripts\python.exe`; for a packaged build
-   use `StadiaBridge.exe`.
-2. On Devices, select **only the physical Stadia controller**, then enable device
-   hiding. Leave the virtual Xbox controller visible.
-3. Reconnect the controller and restart the bridge and game. If detection stops,
-   disable hiding and check that the correct bridge executable was allowed.
+**Keep Stadia Bridge open while playing.** Minimized is fine. Closing it or pressing **Stop** removes the virtual Xbox controller.
 
-If the app is waiting, check its Detected list, the USB cable/Bluetooth pairing,
-and HidHide settings. If it reports a driver error, install/reinstall ViGEmBus,
-restart Windows, and reopen the app. Logs are in
-`%LOCALAPPDATA%\StadiaBridge\bridge.log`, accessible with **Open logs**.
-Stop/close the app to release all inputs. Unplugging the controller releases all
-inputs and removes the virtual controller; plugging it back in recreates it.
-Unexpected driver/read errors stop the bridge and show an error; press Start to
-retry. A recreated virtual device may need the game to be restarted.
+Click **Test in Windows** in the app to see **Xbox 360 Controller for Windows** and check its controls. Open your game after the bridge connects.
 
-**Dependency status:** [ViGEmBus is retired](https://github.com/nefarius/ViGEmBus)
-and no longer maintained. Use the maintainer's signed release. Driver installation
-is separate from this app; it is not silently installed by the bridge.
+> **Yes, ViGEmBus is still required.** Python and the app's libraries are bundled in the EXE; the Windows driver is separate. If it is already installed and working, you do not need to install it again. ViGEmBus is retired, so use the maintainer's linked release.
 
-## Build an executable
+The executable is unsigned, so Windows may display an unknown-publisher warning. The release includes `SHA256SUMS.txt` for checking downloads.
 
-On Windows, run `setup.bat`, then `build.bat`. The result is
-`dist\StadiaBridge\StadiaBridge.exe`. Copy the **whole StadiaBridge folder** to the
-target Windows 10/11 x64 PC; Python is then unnecessary, but ViGEmBus is still
-required. The executable is unsigned. The included GitHub Actions workflow also
-builds this folder and uploads it as a downloadable artifact when run on GitHub.
-Run `python scripts/package_release.py` after building to create the versioned
-ZIP and SHA-256 checksum in `releases/`. The GitHub Actions workflow builds on
-pushes and pull requests. Pushing a `v*` version tag also publishes a GitHub Release
-with the Windows ZIP and checksum. Update `VERSION` before tagging a new version.
+### Which download do I want?
 
-## Development and validation
+| Download | Use it when… |
+| --- | --- |
+| **[StadiaBridge.exe](https://github.com/adamdavies1915/stadia-bridge/releases/latest/download/StadiaBridge.exe)** | You just want to play. Download it and run it. |
+| **[Portable Windows ZIP](https://github.com/adamdavies1915/stadia-bridge/releases/latest)** | You prefer an extracted app folder. Keep `_internal` beside the EXE. |
+| **[EXE in this repository](downloads/StadiaBridge.exe)** | You want the checked-in beginner bundle. Click GitHub's download button on the file page. |
+| Source archives | You want to inspect, modify, or rebuild the app or its LGPL dependency. |
 
-```sh
-python -m unittest discover -s tests -v
+## What it does
+
+- **Native XInput:** compatible games see a virtual Xbox 360 controller.
+- **Normal controls:** A/B/X/Y, D-pad, bumpers, stick clicks, both sticks, and independent analog triggers.
+- **Automatic reconnect:** reconnecting the Stadia controller recreates the Xbox device.
+- **Adjustable deadzone:** reduce stick drift with a slider.
+- **Live output:** see what the bridge is sending to Windows.
+- **Background operation:** input continues while the window is minimized.
+- **One instance:** reopening the app won't create another Xbox controller.
+
+```text
+Stadia controller → Stadia Bridge → ViGEmBus → Xbox 360 / XInput → Your game
+   USB / Bluetooth                  Windows driver
 ```
 
-These tests require no hardware or third-party packages. They check button masks,
-axis direction/range, analog triggers, deadzone, output clearing, device filtering,
-disconnect/reconnect, and failure cleanup with fake devices.
+### Compatibility and limits
 
-The implementation uses [pygame's SDL controller API](https://www.pygame.org/docs/ref/sdl2_controller.html)
-for built-in Stadia USB/Bluetooth mappings and
-[vgamepad](https://github.com/yannbouteiller/vgamepad) for virtual output.
-Input is polled on Tk's main thread with an 8 ms requested interval; actual latency
-depends on Windows scheduling. One controller is supported at a time.
+| Feature | Status |
+| --- | --- |
+| Windows | Windows 10/11, x64; verified on Windows 11 |
+| Bluetooth | Verified with a real Stadia controller; Bluetooth firmware must already be installed |
+| USB | Supported through SDL's Stadia mappings; hardware testing so far was over Bluetooth |
+| Number of controllers | One Stadia controller per app instance |
+| Xbox identity | Xbox 360, not Xbox One; ViGEmBus does not emulate an Xbox One device |
+| Vibration / headset audio | Not forwarded |
+| Assistant / Capture buttons | Not forwarded |
+| Stadia / menu buttons | Guide and Start/Back where SDL and firmware support them; games or overlays may intercept Guide |
 
-**Verified on the current Windows 11 machine through WSL interop:** SDL detected
-Google Stadia Controller over Bluetooth. During a 90-second real-device check,
-Windows XInput received 9,016 matching reports with 160 distinct states, including
-stick, button, and independent analog trigger input. The Xbox slot disappeared
-when the bridge stopped. The Windows executable was compiled locally. This does
-not establish behavior in every game or over USB; those remain separate checks.
+## Troubleshooting
 
-The ViGEm driver sends a fixed off-center handshake report and suppresses an
-unchanged zero report. The bridge primes it with a one-unit stick report and
-immediately centers it to avoid startup drift before the first physical input.
+| Problem | Try this |
+| --- | --- |
+| **Waiting for a controller** | Wake it, check Bluetooth pairing or the USB data cable, and look at the app's **Detected** list. |
+| **Could not create Xbox controller** | Install ViGEmBus, restart if requested, and reopen the app. |
+| **Game doesn't see it** | Click **Test in Windows** first, then restart the game after the bridge connects. |
+| **Inputs happen twice** | Disable other controller translators. For a Steam game, try disabling Steam Input for that game while using this bridge. |
+| **Stick drift** | Increase the stick deadzone slightly. |
+| **Already running** | Use the existing Stadia Bridge window; check the taskbar if it is minimized. |
+| **Need diagnostics** | Click **Open logs**. Logs are stored in `%LOCALAPPDATA%\StadiaBridge\bridge.log`. |
 
-For a direct native check with no other bridge instance running:
+<details>
+<summary><strong>Advanced: hide the physical controller if a game reads both devices</strong></summary>
 
-```powershell
-python scripts/verify_windows.py --bridge-seconds 30
+Windows can show both the physical Stadia controller and the virtual Xbox controller. If a game still reads both after disabling other translators, [HidHide](https://github.com/nefarius/HidHide) can hide the physical device.
+
+1. Allowlist **StadiaBridge.exe** in HidHide's Applications list. For a source launch, allowlist the project's `.venv\Scripts\python.exe` instead.
+2. Select **only the physical Stadia controller** in Devices, then enable hiding. Leave the virtual Xbox controller visible.
+3. Reconnect the controller and restart the bridge and game.
+
+If detection stops, disable hiding and check the executable allowlist. The single-file EXE extracts its libraries temporarily; select the downloaded EXE as the application. A recreated Xbox device may require a game restart.
+
+</details>
+
+## Build from source
+
+Install **Python 3.12 x64** from [python.org](https://www.python.org/downloads/windows/). To run the bridge, install ViGEmBus separately.
+
+```bat
+git clone https://github.com/adamdavies1915/stadia-bridge.git
+cd stadia-bridge
+setup.bat
+start.bat
 ```
 
-Move the controller during this check. It compares the live Stadia mapping with
-Windows XInput and checks that stopping removes the created Xbox slot.
+`setup.bat` checks the vgamepad source archive checksum and disables its obsolete bundled driver installer before installing it. The controller runtime and DLLs are unchanged.
 
-The optional `scripts/install-local.ps1` and `scripts/build-local.ps1` install a
-per-user runtime, build the executable, and create Desktop/Start menu shortcuts.
-They require ViGEmBus to be installed separately.
+To build both Windows formats:
+
+```bat
+build.bat
+.venv\Scripts\python.exe scripts\package_release.py
+```
+
+| Output | Contents |
+| --- | --- |
+| `dist\single\StadiaBridge.exe` | Single executable with its runtime, libraries, and license notices embedded |
+| `dist\StadiaBridge\` | Portable app folder |
+| `releases\` | EXE, portable ZIP, and checksums ready to upload |
+
+The Windows GitHub Actions workflow runs tests and builds the downloads. Pushing a `v*` tag matching `VERSION` publishes a release. The checked-in `downloads/StadiaBridge.exe` is updated separately when making a release.
+
+## Verification
+
+```bat
+.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+Tests cover input mapping, deadzones, release of held inputs, reconnects, and driver/read failures. To compare a real controller with Windows XInput, close the app first and run:
+
+```bat
+.venv\Scripts\python.exe scripts\verify_windows.py --bridge-seconds 30
+```
+
+Move the sticks and press buttons during the check. The original Windows 11 Bluetooth test received **9,016 matching native reports across 160 distinct states** and verified that Stop removed the Xbox slot. See [hardware verification](WINDOWS_VERIFICATION.md) for the scope and limits of those checks.
+
+## License and credits
+
+The original bridge code is [MIT licensed](LICENSE). Bundled dependencies retain their own licenses; see [third-party notices](third_party/README.md) and the app's **Licenses** button. The release includes source for pygame, the LGPL dependency, alongside the application source available in this repository.
+
+Built with [pygame / SDL](https://www.pygame.org/docs/ref/sdl2_controller.html), [vgamepad](https://github.com/yannbouteiller/vgamepad), and [ViGEmBus](https://github.com/nefarius/ViGEmBus). The ViGEmBus installer is not bundled. This is an independent compatibility project, unaffiliated with Google or Microsoft.

@@ -6,9 +6,9 @@ Copy-Item (Join-Path $project 'run.py') $app -Force
 Set-Location $app
 & "$app\runtime\python.exe" -m unittest discover -s (Join-Path $project 'tests') -v
 if ($LASTEXITCODE -ne 0) { throw 'Tests failed' }
-& "$app\runtime\python.exe" -m PyInstaller --noconfirm --clean --onedir --windowed --name StadiaBridge --collect-all vgamepad --hidden-import pygame._sdl2.controller run.py
+& "$app\runtime\python.exe" (Join-Path $project 'scripts\build_windows.py') --output "$app\dist" --work "$app\build"
 if ($LASTEXITCODE -ne 0) { throw 'Windows executable build failed' }
-$exe = Join-Path $app 'dist\StadiaBridge\StadiaBridge.exe'
+$exe = Join-Path $app 'dist\single\StadiaBridge.exe'
 $shell = New-Object -ComObject WScript.Shell
 foreach ($folder in @([Environment]::GetFolderPath('Desktop'), [Environment]::GetFolderPath('Programs'))) {
     $shortcut = $shell.CreateShortcut((Join-Path $folder 'Stadia Bridge.lnk'))

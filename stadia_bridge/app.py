@@ -10,6 +10,7 @@ from tkinter import ttk, messagebox
 import webbrowser
 from .bridge import Bridge, SDLSource, xbox_factory
 from .mapping import BUTTONS
+from .instance import SingleInstance
 
 DRIVER_URL = "https://github.com/nefarius/ViGEmBus/releases/latest"
 
@@ -23,6 +24,13 @@ def main():
         messagebox.showerror("Windows required", "Stadia Bridge creates a virtual Xbox controller on Windows 10/11.")
         root.destroy()
         return
+    instance = SingleInstance()
+    if instance.already_running:
+        root.withdraw()
+        messagebox.showinfo("Already running", "Stadia Bridge is already open. Use its existing window to avoid duplicate controllers.")
+        instance.close()
+        root.destroy()
+        return
     log_dir = Path(os.environ.get("LOCALAPPDATA", str(Path.home()))) / "StadiaBridge"
     log_dir.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(filename=log_dir / "bridge.log", level=logging.INFO,
@@ -31,7 +39,8 @@ def main():
         source = SDLSource()
     except Exception as exc:
         logging.exception("SDL initialization failed")
-        messagebox.showerror("Could not start", f"{exc}\n\nTry running setup.bat again.")
+        messagebox.showerror("Could not start", f"{exc}\n\nPlease download a fresh copy of Stadia Bridge.")
+        instance.close()
         root.destroy()
         return
     bridge = Bridge(source, xbox_factory)
@@ -75,6 +84,14 @@ def main():
     links = ttk.Frame(panel)
     links.pack(fill="x", side="bottom")
     ttk.Button(links, text="Get ViGEmBus driver", command=lambda: webbrowser.open(DRIVER_URL)).pack(side="left")
+    def licenses():
+        bundle = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parents[1]))
+        folder = bundle / 'third_party'
+        if folder.is_dir():
+            os.startfile(folder)
+        else:
+            webbrowser.open('https://github.com/adamdavies1915/stadia-bridge/tree/main/third_party')
+    ttk.Button(links, text="Licenses", command=licenses).pack(side="left", padx=8)
     ttk.Button(links, text="Open logs", command=lambda: os.startfile(log_dir)).pack(side="right")
     last_ui = 0.0
     def tick():
@@ -94,6 +111,7 @@ def main():
             stop()
         finally:
             source.close()
+            instance.close()
             root.destroy()
     root.protocol("WM_DELETE_WINDOW", close)
     bridge.start()

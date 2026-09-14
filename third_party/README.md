@@ -18,3 +18,19 @@ their own licenses; the notices in this directory accompany the executable.
 The portable package uses dynamically loaded libraries in _internal. They are not
 statically linked into the application. Source and build scripts for the bridge
 are in the repository. The ViGEmBus driver installer is not included in the ZIP.
+
+## Rebuilding with a modified pygame
+
+The release provides `pygame-2.6.1.tar.gz`, the unchanged corresponding pygame
+source, alongside the EXE and portable ZIP. Extract that archive, make your
+changes, and build/install pygame into the project's Windows Python 3.12 virtual
+environment using pygame's included build instructions. Then run `build.bat` to
+rebuild the bridge against it. Do not rerun `setup.bat` afterward, as it installs
+the pinned upstream version. The app source and build scripts are public here.
+Modification for personal use and reverse engineering to debug modifications of
+LGPL components are permitted under the applicable licenses.
+
+The single-file EXE extracts its embedded libraries and notices temporarily.
+The Licenses button opens those notices. The portable ZIP is also provided for
+users who want the libraries unpacked beside the app. Python's included license
+contains the additional Microsoft runtime terms applicable to Windows binaries.

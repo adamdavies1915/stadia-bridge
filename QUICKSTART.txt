@@ -1,17 +1,24 @@
 STADIA BRIDGE — WINDOWS x64
 
-1. Extract this entire ZIP to a folder. Keep _internal beside StadiaBridge.exe.
-2. Install ViGEmBus if you do not already have it:
+SINGLE EXE (easiest)
+Download StadiaBridge.exe and double-click it. No Python or extraction needed.
+The first launch may take a few seconds to unpack the bundled libraries.
+
+PORTABLE ZIP
+Extract this entire ZIP. Keep _internal beside StadiaBridge.exe, then run it.
+
+BOTH VERSIONS
+1. If ViGEmBus is not already installed, get the driver here:
    https://github.com/nefarius/ViGEmBus/releases/latest
-   Reboot if requested by the driver installer.
-3. Connect your Stadia controller with a USB data cable, or Bluetooth if your
+   Reboot if requested. The driver is required and is installed separately.
+2. Connect your Stadia controller using a USB data cable, or Bluetooth if your
    controller already has Bluetooth firmware.
-4. Run StadiaBridge.exe. Python is not required.
-5. Keep the app open while playing; minimizing is fine. Run only one instance.
+3. Keep Stadia Bridge open while playing; minimizing is fine.
 
 Windows sees an Xbox 360 controller through native XInput. Click Test in Windows
 in the app to check it. Use Stop or close the app to remove the Xbox device.
 
-This executable is unsigned. ViGEmBus is a separate, retired dependency.
+The executable is unsigned. ViGEmBus is a retired dependency.
 Rumble, headset audio, Assistant and Capture are not forwarded.
 For duplicate input and troubleshooting, see README.md.
+Dependency notices are accessible through the app's Licenses button.
