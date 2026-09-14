@@ -1,8 +1,17 @@
 # Tandem Mode hardware check
 
-Status: **not yet verified with two physical controllers**. No change to the
-current bridge executable is expected: the primary Stadia controller presents
-the combined input described in [Google’s documentation](https://support.google.com/stadia/answer/13067284?hl=en-GB).
+Status: **user-confirmed working in-game on 2026-09-13** using the current
+v0.1.1 executable, a primary Stadia controller, and a PlayStation secondary
+controller. The user connected the PlayStation controller for this test and
+reported that it worked fine in the game. The exact PlayStation model and game
+were not recorded. No app changes or Tandem toggle were needed.
+
+The separate automated observation saw one Xbox slot with idle values during
+its sampling window; it did not independently capture the secondary controls.
+This is a user-reported in-game result, not a completed run of every check below.
+Simultaneous opposing controls, secondary disconnect/reconnect, and other models
+remain unverified. The primary controller combines inputs as described in
+[Google’s documentation](https://support.google.com/stadia/answer/13067284?hl=en-GB).
 
 Use the README’s Tandem setup first, then test the running EXE:
 

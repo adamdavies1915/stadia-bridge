@@ -67,7 +67,7 @@ Stadia controller → Stadia Bridge → ViGEmBus → Xbox 360 / XInput → Your 
 | Bluetooth | Verified with a real Stadia controller; Bluetooth firmware must already be installed |
 | USB | Supported through SDL's Stadia mappings; hardware testing so far was over Bluetooth |
 | Number of controllers | One primary Stadia controller; a Tandem pair shares the same Xbox output |
-| Tandem Mode | Expected to work through the current bridge; two-controller hardware verification pending |
+| Tandem Mode | Confirmed working in-game by a user with a PlayStation secondary controller |
 | Xbox identity | Xbox 360, not Xbox One; ViGEmBus does not emulate an Xbox One device |
 | Vibration / headset audio | Not forwarded |
 | Assistant / Capture buttons | Not forwarded |
@@ -75,11 +75,12 @@ Stadia controller → Stadia Bridge → ViGEmBus → Xbox 360 / XInput → Your 
 
 ## Tandem Mode: share one player’s controls
 
-**The current EXE should already work with Stadia’s built-in Tandem Mode.**
+**The current EXE supports Stadia’s built-in Tandem Mode.**
 Google documents that the primary controller combines both devices’ inputs before
 sending them to the PC. The bridge reads that primary controller, so no app toggle
-or separate Xbox device is needed. This is expected compatibility, not yet a
-verified two-controller result.
+or separate Xbox device is needed. A user confirmed it working in-game with a
+PlayStation secondary controller on Windows. The exact PlayStation model was not
+recorded; other secondary models and disconnect behavior have not yet been tested.
 
 1. Connect the primary Stadia controller to Windows **over Bluetooth** and leave
    Stadia Bridge running.
