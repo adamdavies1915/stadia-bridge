@@ -66,11 +66,33 @@ Stadia controller → Stadia Bridge → ViGEmBus → Xbox 360 / XInput → Your 
 | Windows | Windows 10/11, x64; verified on Windows 11 |
 | Bluetooth | Verified with a real Stadia controller; Bluetooth firmware must already be installed |
 | USB | Supported through SDL's Stadia mappings; hardware testing so far was over Bluetooth |
-| Number of controllers | One Stadia controller per app instance |
+| Number of controllers | One primary Stadia controller; a Tandem pair shares the same Xbox output |
+| Tandem Mode | Expected to work through the current bridge; two-controller hardware verification pending |
 | Xbox identity | Xbox 360, not Xbox One; ViGEmBus does not emulate an Xbox One device |
 | Vibration / headset audio | Not forwarded |
 | Assistant / Capture buttons | Not forwarded |
 | Stadia / menu buttons | Guide and Start/Back where SDL and firmware support them; games or overlays may intercept Guide |
+
+## Tandem Mode: share one player’s controls
+
+**The current EXE should already work with Stadia’s built-in Tandem Mode.**
+Google documents that the primary controller combines both devices’ inputs before
+sending them to the PC. The bridge reads that primary controller, so no app toggle
+or separate Xbox device is needed. This is expected compatibility, not yet a
+verified two-controller result.
+
+1. Connect the primary Stadia controller to Windows **over Bluetooth** and leave
+   Stadia Bridge running.
+2. Charge the second controller and turn it off.
+3. Connect it to the Stadia controller’s **USB-C port using a data cable**. If an
+   A-to-C adapter is needed, put the adapter at the primary Stadia controller end.
+4. Check inputs from each controller using **Test in Windows**.
+
+Both people control **the same player**. The primary controller must stay wireless;
+only one secondary controller is supported. Headphones should connect to the PC.
+
+See [Google’s setup instructions and supported controller list](https://support.google.com/stadia/answer/13067284?hl=en-GB).
+For a repeatable bridge check, see [the Tandem test checklist](docs/TANDEM_TEST.md).
 
 ## Troubleshooting
 
