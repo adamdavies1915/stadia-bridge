@@ -63,4 +63,9 @@ jobs:
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" releases/* --verify-tag --title "Stadia Bridge $GITHUB_REF_NAME" --generate-notes
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --json tagName >/dev/null 2>&1; then
+            echo "Release already published; keeping its tested assets."
+          else
+            gh release create "$GITHUB_REF_NAME" releases/* --verify-tag --title "Stadia Bridge $GITHUB_REF_NAME" --generate-notes
+          fi

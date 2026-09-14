@@ -6,7 +6,7 @@
 
 Use it as an **Xbox controller in Windows games**—with native XInput output.
 
-[![Windows build](https://github.com/adamdavies1915/stadia-bridge/actions/workflows/windows.yml/badge.svg)](https://github.com/adamdavies1915/stadia-bridge/actions/workflows/windows.yml)
+[![Windows build](https://github.com/adamdavies1915/stadia-bridge/actions/workflows/windows.yml/badge.svg?branch=main)](https://github.com/adamdavies1915/stadia-bridge/actions/workflows/windows.yml)
 [![Latest release](https://img.shields.io/github/v/release/adamdavies1915/stadia-bridge)](https://github.com/adamdavies1915/stadia-bridge/releases/latest)
 ![Windows 10 / 11 x64](https://img.shields.io/badge/Windows-10%20%2F%2011%20x64-0078D4)
 [![Code license: MIT](https://img.shields.io/badge/Code%20license-MIT-green)](LICENSE)
